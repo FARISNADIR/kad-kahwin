@@ -255,6 +255,9 @@
         </section>
     </main>
 
+    <!-- ============ KUCING TIDUR (sudut bawah-kiri) ============ -->
+    <div id="cat-corner" class="cat-corner" aria-hidden="true"></div>
+
     <audio id="bg-music" preload="none">
         <!-- Letak fail lagu anda dalam folder assets/ dengan salah satu nama di bawah -->
         <source src="assets/music.mp3" type="audio/mpeg">
@@ -262,6 +265,23 @@
         <source src="assets/music.ogg" type="audio/ogg">
         <source src="assets/music.wav" type="audio/wav">
     </audio>
+
+    <!-- Kucing tidur: lottie-web + data terbenam (berfungsi walau buka fail terus) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <script src="assets/cat-data.js"></script>
+    <script>
+        (function () {
+            if (window.lottie && window.CAT_DATA) {
+                lottie.loadAnimation({
+                    container: document.getElementById('cat-corner'),
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    animationData: window.CAT_DATA
+                });
+            }
+        })();
+    </script>
 
     <script src="script.js"></script>
 </body>
