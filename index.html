@@ -10,7 +10,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="locked">
@@ -25,6 +25,24 @@
         <svg class="plane p6" viewBox="0 0 64 48"><path class="p-light" d="M62 4 L2 24 L27 30 Z"/><path class="p-dark" d="M62 4 L27 30 L33 46 Z"/></svg>
     </div>
 
+    <!-- ============ KESAN LATAR (bintang, kelopak, cahaya, bulan) ============ -->
+    <div class="bg-fx" aria-hidden="true">
+        <!-- bintang berkelip -->
+        <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span>
+        <span class="spark s4"></span><span class="spark s5"></span><span class="spark s6"></span>
+        <span class="spark s7"></span><span class="spark s8"></span><span class="spark s9"></span>
+        <span class="spark s10"></span><span class="spark s11"></span><span class="spark s12"></span>
+
+        <!-- kelopak bunga gugur -->
+        <span class="petal pt1"></span><span class="petal pt2"></span><span class="petal pt3"></span>
+        <span class="petal pt4"></span><span class="petal pt5"></span><span class="petal pt6"></span>
+        <span class="petal pt7"></span><span class="petal pt8"></span>
+
+        <!-- bulan sabit -->
+        <svg class="moon m1" viewBox="0 0 40 40"><path d="M14 4 A16 16 0 1 0 14 36 A12 12 0 1 1 14 4 Z"/></svg>
+        <svg class="moon m2" viewBox="0 0 40 40"><path d="M14 4 A16 16 0 1 0 14 36 A12 12 0 1 1 14 4 Z"/></svg>
+    </div>
+
     <!-- ============ MUZIK ============ -->
     <button id="music-toggle" class="music-toggle" title="Muzik" aria-label="Togol muzik">
         <svg class="ic-note" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M9 17.5a2.5 2.5 0 1 1-2.5-2.5c.4 0 .77.09 1.1.24V6l9-2v8.5a2.5 2.5 0 1 1-2.5-2.5c.4 0 .77.09 1.1.24V5.3L9 6.7v10.8z"/></svg>
@@ -33,31 +51,35 @@
 
     <!-- ============ COVER / KULIT ============ -->
     <section id="cover" class="cover">
-        <span class="fl fl-tl"></span>
-        <span class="fl fl-br"></span>
+        <!-- Gambar cover sebenar (letak fail di assets/cover.jpg untuk 100% identik) -->
+        <img id="cover-photo" class="cover-photo" src="assets/cover.jpg" alt="Kad Jemputan Munirah &amp; Alif">
 
-        <div class="cover-inner">
-            <p class="cover-eyebrow">Walimatulurus</p>
+        <!-- Binaan CSS (papar jika gambar tiada) -->
+        <div class="cover-fallback">
+            <span class="fl fl-tl"></span>
+            <span class="fl fl-tr"></span>
+            <span class="fl fl-bl"></span>
+            <span class="fl fl-br"></span>
 
-            <div class="monogram">
-                <span class="ar">أ‌م</span>
+            <div class="cpanel">
+                <div class="cpanel-in">
+                    <p class="mk">MAJLIS KESYUKURAN</p>
+                    <div class="monogram2"><span class="ar">أ‌م</span></div>
+                    <div class="orn">&#10086;</div>
+                    <div class="cdiv"></div>
+                    <p class="ar-names">منيرة <svg class="ring-ic" viewBox="0 0 44 30" aria-hidden="true"><path d="M18 6 l3 4 -3 4 -3 -4 z" fill="#8fb0e6"/><path d="M18 10 l3 -4 h-6 z" fill="#cfe0fa"/><circle cx="18" cy="19" r="8" fill="none" stroke="#1e50c8" stroke-width="2.6"/><circle cx="28" cy="19" r="8" fill="none" stroke="#c9a94f" stroke-width="2.6"/></svg> أليف</p>
+                    <div class="cdiv"></div>
+                    <p class="cdate">31 OGOS 2026 &nbsp;|&nbsp; ISNIN</p>
+                    <p class="chijri">(18 RABIULAWAL 1448H)</p>
+                </div>
             </div>
-
-            <h1 class="cover-names">Munirah <em>&amp;</em> Alif</h1>
-
-            <div class="divline"><span></span>&#10022;<span></span></div>
-
-            <p class="cover-date">31 OGOS 2026</p>
-            <p class="cover-hijri">18 Rabiulawal 1448H &middot; Isnin</p>
-
-            <p class="cover-to" id="cover-to">Kepada Dato' / Datin / Tuan / Puan / Encik / Cik</p>
-
-            <button id="open-btn" class="open-btn">
-                <span>Buka Jemputan</span>
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </button>
-            <p class="cover-hint">Tekan untuk membuka</p>
         </div>
+
+        <!-- Butang play (buka jemputan) -->
+        <button id="open-btn" class="play-btn" aria-label="Buka jemputan">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.2v13.6L19 12z"/></svg>
+        </button>
+        <p class="cover-hint">Tekan untuk membuka</p>
     </section>
 
     <!-- ============ KANDUNGAN ============ -->
@@ -166,99 +188,6 @@
         <!-- Seksyen 5: Doa penutup -->
         <section class="card reveal">
             <div class="panel closing">
-                <!-- ===== Kartun beruang pengantin (beranimasi) ===== -->
-                <div class="bearwrap">
-                    <svg class="bears bob" viewBox="0 0 260 200" aria-hidden="true">
-                        <ellipse cx="130" cy="186" rx="92" ry="10" fill="#000" opacity=".07"/>
-
-                        <!-- hati berterbangan -->
-                        <g fill="#e0566c">
-                            <path class="hf hf1" d="M118 66 c-3 -5 -11 -2 -11 4 c0 5 11 11 11 11 c0 0 11 -6 11 -11 c0 -6 -8 -9 -11 -4 z"/>
-                            <path class="hf hf2" d="M141 56 c-3 -5 -11 -2 -11 4 c0 5 11 11 11 11 c0 0 11 -6 11 -11 c0 -6 -8 -9 -11 -4 z"/>
-                            <path class="hf hf3" d="M130 48 c-2 -4 -9 -1 -9 3 c0 4 9 9 9 9 c0 0 9 -5 9 -9 c0 -5 -7 -7 -9 -3 z"/>
-                        </g>
-
-                        <!-- ====== BERUANG LELAKI ====== -->
-                        <g>
-                            <ellipse cx="72" cy="176" rx="9" ry="7" fill="#a9764c"/>
-                            <ellipse cx="98" cy="176" rx="9" ry="7" fill="#a9764c"/>
-                            <ellipse cx="85" cy="151" rx="27" ry="26" fill="#b9835a"/>
-                            <ellipse cx="85" cy="154" rx="16" ry="17" fill="#ecd8ba"/>
-                            <ellipse cx="108" cy="150" rx="8" ry="14" fill="#a9764c" transform="rotate(20 108 150)"/>
-                            <!-- tali leret biru -->
-                            <g fill="#1e50c8">
-                                <path d="M85 125 l-14 -7 v14 z"/>
-                                <path d="M85 125 l14 -7 v14 z"/>
-                                <circle cx="85" cy="125" r="4"/>
-                            </g>
-                            <!-- telinga -->
-                            <circle cx="66" cy="72" r="13" fill="#a9764c"/>
-                            <circle cx="104" cy="72" r="13" fill="#a9764c"/>
-                            <circle cx="66" cy="72" r="6" fill="#caa276"/>
-                            <circle cx="104" cy="72" r="6" fill="#caa276"/>
-                            <!-- songkok -->
-                            <path d="M62 78 Q85 60 108 78 L108 82 L62 82 Z" fill="#22263f"/>
-                            <!-- kepala -->
-                            <circle cx="85" cy="92" r="30" fill="#b9835a"/>
-                            <ellipse cx="85" cy="103" rx="15" ry="11" fill="#ecd8ba"/>
-                            <ellipse cx="85" cy="98" rx="4.5" ry="3.2" fill="#4a3524"/>
-                            <path d="M85 101 v5 M85 106 q-5 3 -9 0 M85 106 q5 3 9 0" stroke="#4a3524" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-                            <circle cx="68" cy="99" r="4" fill="#e79aa0" opacity=".6"/>
-                            <circle cx="102" cy="99" r="4" fill="#e79aa0" opacity=".6"/>
-                            <g class="blink">
-                                <circle cx="75" cy="88" r="3.4" fill="#2b2018"/>
-                                <circle cx="95" cy="88" r="3.4" fill="#2b2018"/>
-                                <circle cx="76.3" cy="86.8" r="1" fill="#fff"/>
-                                <circle cx="96.3" cy="86.8" r="1" fill="#fff"/>
-                            </g>
-                            <!-- tangan melambai -->
-                            <g class="wave">
-                                <rect x="44" y="106" width="15" height="34" rx="7.5" fill="#a9764c" transform="rotate(16 51 138)"/>
-                                <circle cx="48" cy="108" r="8" fill="#caa276"/>
-                            </g>
-                        </g>
-
-                        <!-- ====== BERUANG PEREMPUAN ====== -->
-                        <g>
-                            <!-- tudung / kerudung (di belakang) -->
-                            <path d="M175 44 C149 44 137 70 141 97 L138 152 Q175 141 212 152 L209 97 C213 70 201 44 175 44 Z" fill="#f4ecd8" stroke="#e2d3a6" stroke-width="1.5"/>
-                            <ellipse cx="162" cy="176" rx="9" ry="7" fill="#a9764c"/>
-                            <ellipse cx="188" cy="176" rx="9" ry="7" fill="#a9764c"/>
-                            <ellipse cx="175" cy="151" rx="27" ry="26" fill="#b9835a"/>
-                            <!-- baju krim -->
-                            <path d="M156 141 Q175 133 194 141 L200 177 L150 177 Z" fill="#f7f0df" stroke="#e2d3a6" stroke-width="1.2"/>
-                            <!-- telinga -->
-                            <circle cx="156" cy="72" r="13" fill="#a9764c"/>
-                            <circle cx="194" cy="72" r="13" fill="#a9764c"/>
-                            <circle cx="156" cy="72" r="6" fill="#caa276"/>
-                            <circle cx="194" cy="72" r="6" fill="#caa276"/>
-                            <!-- kepala -->
-                            <circle cx="175" cy="92" r="30" fill="#b9835a"/>
-                            <ellipse cx="175" cy="103" rx="15" ry="11" fill="#ecd8ba"/>
-                            <ellipse cx="175" cy="98" rx="4.5" ry="3.2" fill="#4a3524"/>
-                            <path d="M175 101 v5 M175 106 q-5 3 -9 0 M175 106 q5 3 9 0" stroke="#4a3524" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-                            <circle cx="158" cy="99" r="4" fill="#e79aa0" opacity=".6"/>
-                            <circle cx="192" cy="99" r="4" fill="#e79aa0" opacity=".6"/>
-                            <g class="blink">
-                                <circle cx="165" cy="88" r="3.4" fill="#2b2018"/>
-                                <circle cx="185" cy="88" r="3.4" fill="#2b2018"/>
-                                <circle cx="166.3" cy="86.8" r="1" fill="#fff"/>
-                                <circle cx="186.3" cy="86.8" r="1" fill="#fff"/>
-                            </g>
-                            <!-- bunga di tudung -->
-                            <g>
-                                <circle cx="200" cy="70" r="7" fill="#6f97dc"/>
-                                <circle cx="207" cy="66" r="5" fill="#9db9ea"/>
-                                <circle cx="200" cy="70" r="2.6" fill="#eef3ff"/>
-                            </g>
-                            <!-- tangan pegang hati -->
-                            <circle cx="164" cy="150" r="8" fill="#caa276"/>
-                            <circle cx="186" cy="150" r="8" fill="#caa276"/>
-                            <path class="pulse" d="M175 145 c-4 -6 -14 -2 -14 5 c0 7 14 14 14 14 c0 0 14 -7 14 -14 c0 -7 -10 -11 -14 -5 z" fill="#e0566c"/>
-                        </g>
-                    </svg>
-                </div>
-
                 <p class="closing-ar">وَبَارَكَ اللّٰهُ عَلَيْكُمَا</p>
                 <p class="soft">Semoga menjadi pasangan yang bahagia hingga ke Jannah.</p>
                 <p class="closing-names">Munirah <span>&amp;</span> Alif</p>

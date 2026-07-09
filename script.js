@@ -145,7 +145,10 @@
   /* ============================================================
      2) BUKA JEMPUTAN
      ============================================================ */
+  var opened = false;
   function openInvitation() {
+    if (opened) return;
+    opened = true;
     var cover = $('cover');
     var content = $('content');
     cover.classList.add('hide');
@@ -158,7 +161,23 @@
       window.scrollTo({ top: 0, behavior: 'auto' });
     }, 900);
   }
-  $('open-btn').addEventListener('click', openInvitation);
+  // Seluruh cover boleh diklik (termasuk butang play & gambar)
+  $('cover').addEventListener('click', openInvitation);
+
+  // Kesan gambar cover: guna jika berjaya dimuat, jika tidak papar binaan CSS
+  var coverPhoto = $('cover-photo');
+  if (coverPhoto) {
+    coverPhoto.addEventListener('load', function () {
+      if (coverPhoto.naturalWidth > 0) $('cover').classList.add('has-photo');
+    });
+    coverPhoto.addEventListener('error', function () {
+      $('cover').classList.remove('has-photo');
+    });
+    // jika sudah dalam cache & siap dimuat
+    if (coverPhoto.complete && coverPhoto.naturalWidth > 0) {
+      $('cover').classList.add('has-photo');
+    }
+  }
 
   /* ---- Cuba autoplay muzik sebaik laman dibuka ----
      Pelayar biasanya sekat autoplay berbunyi. Jadi:
@@ -182,12 +201,6 @@
   ['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach(function (ev) {
     window.addEventListener(ev, firstKick, { passive: true });
   });
-
-  // isi nama tetamu dari ?to= dalam URL (cth: index.html?to=Keluarga%20Ahmad)
-  try {
-    var to = new URLSearchParams(location.search).get('to');
-    if (to) $('cover-to').textContent = 'Kepada ' + to;
-  } catch (e) {}
 
   /* ============================================================
      3) REVEAL SEMASA SCROLL
