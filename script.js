@@ -151,15 +151,58 @@
     opened = true;
     var cover = $('cover');
     var content = $('content');
-    cover.classList.add('hide');
     document.body.classList.remove('locked');
-    content.setAttribute('aria-hidden', 'false');
+    content.setAttribute('aria-hidden', 'false');  // papar kandungan dahulu supaya crest boleh diukur
+    morphMonogram();                                // monogram terbang cover -> crest
+    cover.classList.add('hide');                    // sapuan pemadam
     Music.play();
     setTimeout(function () {
       cover.style.display = 'none';
       revealObserve();
       window.scrollTo({ top: 0, behavior: 'auto' });
     }, 900);
+  }
+
+  // Tunjuk crest di kandungan (tempat mendarat morph)
+  function showCrest() {
+    var c = $('crest');
+    if (c) c.classList.add('landed');
+  }
+
+  // Morph FLIP: monogram cover "terbang & mengecut" jadi crest kandungan
+  function morphMonogram() {
+    var flyer = $('morph-flyer');
+    var src = document.querySelector('.cover .monogram2 .ar');
+    var crestAr = document.querySelector('#crest .ar');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!flyer || !src || !crestAr || reduce) { showCrest(); return; }
+
+    var from = src.getBoundingClientRect();
+    var to = crestAr.getBoundingClientRect();
+    if (!from.width || !to.width) { showCrest(); return; }
+
+    var fly = flyer.querySelector('.ar');
+    fly.style.fontSize = window.getComputedStyle(src).fontSize;   // saiz asal = saiz monogram cover
+    flyer.style.display = 'block';
+    flyer.style.transition = 'none';
+    flyer.style.transform = 'translate(' + from.left + 'px,' + from.top + 'px) scale(1)';
+    src.style.visibility = 'hidden';                              // sembunyi monogram asal (elak berganda)
+
+    var scale = to.width / from.width;
+    flyer.getBoundingClientRect();                               // paksa reflow
+
+    requestAnimationFrame(function () {
+      flyer.style.transition = 'transform .9s cubic-bezier(.55,.06,.2,1)';
+      flyer.style.transform = 'translate(' + to.left + 'px,' + to.top + 'px) scale(' + scale + ')';
+    });
+
+    var done = function () {
+      flyer.style.display = 'none';
+      showCrest();
+      flyer.removeEventListener('transitionend', done);
+    };
+    flyer.addEventListener('transitionend', done);
+    setTimeout(done, 1100);                                       // sandaran jika transitionend tak cetus
   }
   // Seluruh cover boleh diklik (termasuk butang play & gambar)
   $('cover').addEventListener('click', openInvitation);
@@ -324,4 +367,30 @@
   });
 
   renderWishes();
+
+  /* ============================================================
+     7) KESAN TAIP (TYPEWRITER) — "MAJLIS KESYUKURAN"
+     ============================================================ */
+  (function typewriterMk() {
+    var live = document.querySelector('.mk .mk-live');
+    var ghost = document.querySelector('.mk .mk-ghost');
+    if (!live || !ghost) return;
+    var full = ghost.textContent;
+    var caret = document.createElement('span');
+    caret.className = 'mk-caret';
+    live.appendChild(caret);
+    var i = 0;
+    function step() {
+      if (i < full.length) {
+        caret.insertAdjacentText('beforebegin', full.charAt(i));
+        i++;
+        setTimeout(step, 100);          // laju taip: 100ms/huruf
+      } else {
+        setTimeout(function () {         // hilangkan kursor selepas siap
+          if (caret.parentNode) caret.parentNode.removeChild(caret);
+        }, 1400);
+      }
+    }
+    setTimeout(step, 650);              // mula selepas panel naik
+  })();
 })();

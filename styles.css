@@ -143,9 +143,35 @@ body::before{
 /* ==================== COVER ==================== */
 .cover{
   position:fixed;inset:0;z-index:50;overflow:hidden;cursor:pointer;
-  transition:opacity .9s ease, transform .9s ease, visibility .9s;
+  /* Kesan "disapu pemadam": topeng gradien CSS bertepi gerigi tak sekata */
+  -webkit-mask-image:linear-gradient(112deg, transparent 40%, #000 41.3%, transparent 42.2%, #000 43.8%, transparent 44.5%, #000 46.2%, transparent 47%, #000 48.8%, transparent 49.5%, #000 51.2%, #000 100%);
+          mask-image:linear-gradient(112deg, transparent 40%, #000 41.3%, transparent 42.2%, #000 43.8%, transparent 44.5%, #000 46.2%, transparent 47%, #000 48.8%, transparent 49.5%, #000 51.2%, #000 100%);
+  -webkit-mask-size:300% 100%;      mask-size:300% 100%;
+  -webkit-mask-position:100% 0;     mask-position:100% 0;
+  -webkit-mask-repeat:no-repeat;    mask-repeat:no-repeat;
+  transition:-webkit-mask-position .9s ease-in-out, mask-position .9s ease-in-out, opacity .9s ease .15s;
 }
-.cover.hide{opacity:0;transform:scale(1.06);visibility:hidden;pointer-events:none;}
+.cover.hide{
+  -webkit-mask-position:0% 0; mask-position:0% 0;
+  opacity:0;                      /* pastikan hilang sepenuhnya di hujung sapuan */
+  pointer-events:none;
+}
+
+/* --- Morph monogram: flyer terbang (FLIP) + crest tempat mendarat --- */
+.morph-flyer{
+  position:fixed;left:0;top:0;z-index:120;display:none;pointer-events:none;
+  transform-origin:top left;will-change:transform;
+}
+.morph-flyer .ar{
+  display:block;font-family:'Aref Ruqaa','Amiri',serif;font-weight:700;line-height:1;
+  color:var(--blue-700);text-shadow:0 3px 6px rgba(15,45,122,.22);
+}
+.crest{margin-bottom:2px;opacity:0;}
+.crest.landed{opacity:1;transition:opacity .35s ease;}
+.crest .ar{
+  font-family:'Aref Ruqaa','Amiri',serif;font-weight:700;font-size:3rem;line-height:1;
+  color:var(--blue-700);text-shadow:0 3px 6px rgba(15,45,122,.22);
+}
 
 /* --- Gambar cover sebenar (jika ada assets/cover.jpg) --- */
 .cover-photo{
@@ -184,7 +210,16 @@ body::before{
   font-family:'Poppins',sans-serif;font-weight:600;letter-spacing:4px;
   font-size:.95rem;color:var(--blue-700);
   margin-top:14px;margin-bottom:26px;
+  /* Kesan taip (typewriter) bila laman dimuat */
+  position:relative;display:inline-block;
 }
+.mk .mk-ghost{visibility:hidden;}                 /* tempah lebar penuh — elak teks terhinjut */
+.mk .mk-live{position:absolute;left:0;top:0;white-space:nowrap;}
+.mk .mk-caret{
+  display:inline-block;width:2px;height:1em;vertical-align:-2px;margin-left:2px;
+  background:var(--blue-700);animation:mkBlink .7s step-end infinite;
+}
+@keyframes mkBlink{0%,100%{opacity:1;}50%{opacity:0;}}
 .monogram2{margin:6px 0 2px;}
 .monogram2 .ar{
   font-family:'Aref Ruqaa','Amiri',serif;font-weight:700;font-size:5.4rem;line-height:1;
