@@ -1,0 +1,315 @@
+/* ==================== VARIABEL ==================== */
+:root{
+  --blue-900:#0c245e;
+  --blue-800:#0f2d7a;
+  --blue-700:#153a99;
+  --blue-600:#1e50c8;
+  --blue-500:#2f66e0;
+  --cream:#f4ecd8;
+  --cream-2:#efe3c9;
+  --gold:#c9a94f;
+  --ink:#12358f;
+  --ink-soft:#3a5bb0;
+  --paper-text:#1c3f96;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'Poppins',sans-serif;
+  color:#fff;
+  background:var(--blue-800);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+body.locked{overflow:hidden;height:100vh;}
+
+/* Corak geometri Islam sebagai latar (dipasang tetap di belakang semua) */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;
+  background-color:var(--blue-800);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(47,102,224,.35), transparent 60%),
+    radial-gradient(circle at 50% 100%, rgba(12,36,94,.6), transparent 55%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%233a63c8' stroke-opacity='.18' stroke-width='1.4'%3E%3Cpath d='M60 8l14 24 27 4-19 20 5 27-27-13-27 13 5-27-19-20 27-4z'/%3E%3Crect x='30' y='30' width='60' height='60' transform='rotate(45 60 60)'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:auto, auto, 120px 120px;
+}
+.cover,.content{background:transparent;}
+
+/* ==================== JET KERTAS ORIGAMI (BERANIMASI) ==================== */
+.planes{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;}
+.plane{position:absolute;left:0;width:38px;height:auto;color:#cfe0fa;opacity:0;
+  filter:drop-shadow(0 3px 5px rgba(0,0,0,.25));will-change:transform,opacity;}
+.plane .p-dark{fill:#8fb0e6;}
+.plane .p-light{fill:#dbe8ff;}
+@keyframes fly{
+  0%  {opacity:0; transform:translate(-16vw,12vh) rotate(-8deg) scale(var(--s,1));}
+  8%  {opacity:.65;}
+  45% {transform:translate(45vw,-3vh) rotate(5deg) scale(var(--s,1));}
+  92% {opacity:.65;}
+  100%{opacity:0; transform:translate(120vw,7vh) rotate(-6deg) scale(var(--s,1));}
+}
+.p1{top:14%; --s:1.05; animation:fly 15s linear infinite 0s;}
+.p2{top:32%; --s:.7;  animation:fly 19s linear infinite 3s;}
+.p3{top:52%; --s:1.25;animation:fly 13s linear infinite 6s;}
+.p4{top:68%; --s:.85; animation:fly 21s linear infinite 2s;}
+.p5{top:80%; --s:.6;  animation:fly 17s linear infinite 9s;}
+.p6{top:24%; --s:.95; animation:fly 23s linear infinite 12s;}
+@media(prefers-reduced-motion:reduce){.plane{animation:none !important;opacity:0;}}
+
+/* ==================== HIASAN BUNGA (SVG) ==================== */
+.fl{
+  position:absolute;width:210px;height:210px;pointer-events:none;z-index:2;
+  background-repeat:no-repeat;background-size:contain;opacity:.96;
+  filter:drop-shadow(0 6px 12px rgba(0,0,0,.25));
+}
+.fl.small{width:140px;height:140px;}
+.fl-tl{top:-10px;left:-30px;}
+.fl-br{bottom:-10px;right:-30px;transform:rotate(180deg);}
+.fl-tr{top:-14px;right:-24px;transform:scaleX(-1);}
+.fl{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg%3E%3Cpath d='M20 190 C40 150 30 110 60 90 C90 70 120 60 150 30' stroke='%234f7bd0' stroke-width='3' fill='none'/%3E%3Cpath d='M55 120 C70 130 90 130 100 118 C90 108 70 108 55 120 Z' fill='%236f97dc'/%3E%3Cpath d='M90 150 C104 162 124 162 134 150 C124 138 104 138 90 150 Z' fill='%238fb0e6'/%3E%3C/g%3E%3Cg fill='%23aecbf2'%3E%3Ccircle cx='40' cy='170' r='16'/%3E%3Ccircle cx='62' cy='158' r='14'/%3E%3Ccircle cx='30' cy='150' r='13'/%3E%3Ccircle cx='55' cy='140' r='12'/%3E%3Ccircle cx='48' cy='158' r='11'/%3E%3C/g%3E%3Cg fill='%23cfe0fa'%3E%3Ccircle cx='150' cy='55' r='19'/%3E%3Ccircle cx='172' cy='42' r='15'/%3E%3Ccircle cx='140' cy='35' r='14'/%3E%3Ccircle cx='165' cy='68' r='13'/%3E%3C/g%3E%3Cg fill='%23e8f0ff'%3E%3Ccircle cx='150' cy='55' r='7'/%3E%3Ccircle cx='45' cy='158' r='6'/%3E%3C/g%3E%3Cg fill='%23dbe8ff'%3E%3Ccircle cx='95' cy='95' r='5'/%3E%3Ccircle cx='115' cy='80' r='4'/%3E%3Ccircle cx='80' cy='115' r='4'/%3E%3Ccircle cx='130' cy='105' r='3'/%3E%3C/g%3E%3C/svg%3E");}
+
+/* ==================== COVER ==================== */
+.cover{
+  position:fixed;inset:0;z-index:50;
+  display:flex;align-items:center;justify-content:center;
+  padding:28px;text-align:center;
+  transition:opacity .9s ease, transform .9s ease, visibility .9s;
+}
+.cover.hide{opacity:0;transform:scale(1.06);visibility:hidden;pointer-events:none;}
+
+.cover-inner{
+  position:relative;z-index:3;max-width:420px;width:100%;
+  animation:floatIn 1.1s ease both;
+}
+@keyframes floatIn{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+
+.cover-eyebrow{
+  font-family:'Great Vibes',cursive;font-size:2.4rem;color:#eaf1ff;
+  letter-spacing:.5px;margin-bottom:6px;
+}
+.monogram{
+  width:112px;height:112px;margin:8px auto 4px;border-radius:50%;
+  background:radial-gradient(circle,#fff8ec,#efe3c9);
+  border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 0 0 6px rgba(201,169,79,.18);
+}
+.monogram .ar{
+  font-family:'Amiri',serif;font-size:3.4rem;font-weight:700;color:var(--blue-700);
+  line-height:1;padding-bottom:6px;
+}
+.cover-names{
+  font-family:'Great Vibes',cursive;font-weight:400;
+  font-size:3.4rem;line-height:1.1;color:#fff;margin-top:10px;
+  text-shadow:0 3px 14px rgba(0,0,0,.3);
+}
+.cover-names em{font-style:normal;font-size:2.4rem;color:var(--gold);}
+.cover-date{
+  font-family:'Playfair Display',serif;font-weight:600;letter-spacing:3px;
+  font-size:1.15rem;margin-top:12px;color:#eaf1ff;
+}
+.cover-hijri{font-size:.78rem;letter-spacing:1.5px;color:#bcd0ff;opacity:.9;margin-top:2px;}
+.cover-to{margin-top:20px;font-size:.82rem;color:#d6e2ff;font-weight:300;}
+
+.open-btn{
+  margin-top:22px;
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'Poppins',sans-serif;font-weight:500;font-size:.95rem;
+  color:var(--blue-800);background:linear-gradient(180deg,#fff8ec,#efe3c9);
+  border:none;border-radius:40px;padding:13px 28px;cursor:pointer;
+  box-shadow:0 10px 26px rgba(0,0,0,.32);
+  transition:transform .2s, box-shadow .2s;
+  animation:pulse 2.4s ease-in-out infinite;
+}
+.open-btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,0,0,.4);}
+.open-btn:active{transform:scale(.97);}
+@keyframes pulse{0%,100%{box-shadow:0 10px 26px rgba(0,0,0,.32);}50%{box-shadow:0 10px 26px rgba(201,169,79,.55);}}
+.cover-hint{margin-top:12px;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:#9fb6ee;}
+
+/* ==================== KANDUNGAN ==================== */
+.content{
+  position:relative;z-index:1;min-height:100vh;
+  padding:40px 18px 60px;
+  display:flex;flex-direction:column;align-items:center;gap:34px;
+}
+.content[aria-hidden="true"]{display:none;}
+
+.card{position:relative;width:100%;max-width:440px;}
+
+.panel{
+  position:relative;z-index:2;
+  background:linear-gradient(160deg,#f7f0df,#ece0c6);
+  border-radius:20px;
+  padding:36px 26px;
+  text-align:center;
+  color:var(--paper-text);
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+  border:1px solid rgba(201,169,79,.35);
+}
+.panel::before{
+  content:"";position:absolute;inset:9px;border-radius:13px;
+  border:1px solid rgba(30,80,200,.22);pointer-events:none;
+}
+
+/* ---- Teks ---- */
+.bismillah{font-family:'Amiri',serif;font-size:1.7rem;color:var(--blue-700);margin-bottom:18px;line-height:1.6;}
+.lead{font-family:'Playfair Display',serif;font-weight:600;font-size:1.1rem;color:var(--blue-700);margin-bottom:14px;}
+.soft{font-weight:300;font-size:.9rem;line-height:1.75;color:#3a5bb0;margin:8px 0;}
+.soft-em{font-style:italic;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:#3a5bb0;margin:6px 0;}
+.parents{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.35rem;color:var(--blue-700);margin:16px 0;line-height:1.5;}
+.parents .amp{font-family:'Great Vibes',cursive;font-size:1.6rem;color:var(--gold);}
+.bride,.groom{
+  font-family:'Great Vibes',cursive;font-weight:400;font-size:2.5rem;
+  color:var(--blue-700);line-height:1.15;margin:4px 0;
+}
+.mini{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#5468b0;letter-spacing:.5px;}
+.heart{font-size:1.2rem;margin:10px 0;}
+
+.dotline{
+  height:1px;margin:20px auto;width:82%;
+  background-image:radial-gradient(circle,#b79a4d 1px,transparent 1.4px);
+  background-size:8px 2px;background-repeat:repeat-x;background-position:center;
+  opacity:.7;
+}
+.divline{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--gold);margin:16px 0;font-size:.9rem;}
+.divline span{height:1px;width:54px;background:linear-gradient(90deg,transparent,var(--gold));}
+.divline span:last-child{background:linear-gradient(270deg,transparent,var(--gold));}
+
+/* ---- Detail (tarikh/lokasi/masa) ---- */
+.detail{padding:20px 0;}
+.detail + .detail{border-top:1px dashed rgba(30,80,200,.25);}
+.ic-round{
+  width:58px;height:58px;margin:0 auto 12px;border-radius:50%;
+  background:var(--blue-700);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 18px rgba(15,45,122,.4);
+}
+.ic-round svg{width:28px;height:28px;}
+.script{font-family:'Great Vibes',cursive;font-size:1.9rem;color:var(--blue-600);margin-bottom:6px;}
+.script.center{margin-bottom:14px;}
+.big{font-family:'Playfair Display',serif;font-weight:600;font-size:1.05rem;color:var(--blue-800);line-height:1.5;margin-bottom:6px;}
+
+/* ---- Butang ---- */
+.btn-solid,.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  font-family:'Poppins',sans-serif;font-weight:500;font-size:.85rem;
+  border-radius:40px;padding:11px 22px;margin-top:12px;
+  transition:transform .18s, box-shadow .18s, background .2s;
+  text-decoration:none;border:none;
+}
+.btn-solid{background:var(--blue-700);color:#fff;box-shadow:0 8px 18px rgba(15,45,122,.35);}
+.btn-solid:hover{background:var(--blue-600);transform:translateY(-2px);}
+.btn-solid.full{width:100%;justify-content:center;margin-top:6px;padding:13px;}
+.btn-outline{background:transparent;color:var(--blue-700);border:1.5px solid var(--blue-700);}
+.btn-outline:hover{background:var(--blue-700);color:#fff;}
+.btn-solid:active,.btn-outline:active{transform:scale(.97);}
+
+/* ---- Countdown ---- */
+.countdown{display:flex;justify-content:center;gap:10px;margin:6px 0 8px;}
+.cd{
+  background:var(--blue-700);color:#fff;border-radius:14px;
+  padding:12px 6px;min-width:62px;
+  box-shadow:0 8px 18px rgba(15,45,122,.35);
+}
+.cd span{display:block;font-family:'Playfair Display',serif;font-weight:700;font-size:1.6rem;line-height:1;}
+.cd small{display:block;margin-top:5px;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;opacity:.85;}
+
+/* ---- Borang ---- */
+.form{display:flex;flex-direction:column;gap:10px;margin-top:16px;text-align:left;}
+.form .row{display:flex;gap:10px;}
+.form input,.form select,.form textarea{
+  width:100%;font-family:'Poppins',sans-serif;font-size:.9rem;color:var(--blue-800);
+  background:#fffdf6;border:1.5px solid rgba(30,80,200,.28);border-radius:12px;
+  padding:12px 14px;outline:none;transition:border .2s, box-shadow .2s;
+}
+.form input:focus,.form select:focus,.form textarea:focus{
+  border-color:var(--blue-600);box-shadow:0 0 0 3px rgba(47,102,224,.15);
+}
+.form #rsvp-pax{max-width:110px;}
+.form textarea{resize:vertical;}
+
+/* ---- Ucapan ---- */
+.wishes{margin-top:20px;display:flex;flex-direction:column;gap:10px;text-align:left;}
+.wish{
+  background:#fffdf6;border-left:3px solid var(--gold);border-radius:10px;
+  padding:11px 14px;box-shadow:0 4px 10px rgba(0,0,0,.06);
+  animation:wishIn .4s ease both;
+}
+@keyframes wishIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:none;}}
+.wish .w-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:3px;}
+.wish .w-name{font-weight:600;font-size:.85rem;color:var(--blue-800);}
+.wish .w-tag{font-size:.62rem;font-weight:500;padding:2px 9px;border-radius:20px;color:#fff;white-space:nowrap;}
+.wish .w-tag.hadir{background:#2e9e6b;}
+.wish .w-tag.tidak{background:#c0655a;}
+.wish .w-tag.pasti{background:#c9a94f;}
+.wish .w-msg{font-size:.82rem;font-weight:300;color:#42569a;line-height:1.5;}
+
+/* ---- Penutup ---- */
+.closing-ar{font-family:'Amiri',serif;font-size:1.7rem;color:var(--blue-700);margin-bottom:14px;}
+.closing-names{font-family:'Great Vibes',cursive;font-size:2.6rem;color:var(--blue-700);margin:12px 0 6px;}
+.closing-names span{color:var(--gold);}
+.closing-fam{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:#4a5ea8;line-height:1.5;}
+.credit{margin-top:14px;font-size:.66rem;letter-spacing:1.5px;text-transform:uppercase;color:#8a97c8;}
+
+/* ==================== KARTUN BERUANG (BERANIMASI) ==================== */
+.bearwrap{margin:0 auto 6px;}
+.bears{display:block;width:220px;max-width:80%;height:auto;margin:0 auto;overflow:visible;}
+.bob{animation:bob 2.8s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+
+.wave{transform-box:fill-box;transform-origin:72% 92%;animation:wave 1.3s ease-in-out infinite;}
+@keyframes wave{0%,100%{transform:rotate(6deg);}50%{transform:rotate(-22deg);}}
+
+.blink{transform-box:fill-box;transform-origin:center;animation:blink 4.2s infinite;}
+@keyframes blink{0%,90%,100%{transform:scaleY(1);}95%{transform:scaleY(.15);}}
+
+.hf{opacity:0;transform-box:fill-box;transform-origin:center;}
+.hf1{animation:hfloat 3.4s ease-in infinite;}
+.hf2{animation:hfloat 3.4s ease-in infinite 1.1s;}
+.hf3{animation:hfloat 3.4s ease-in infinite 2.2s;}
+@keyframes hfloat{0%{opacity:0;transform:translateY(8px) scale(.5);}15%{opacity:1;}100%{opacity:0;transform:translateY(-36px) scale(1);}}
+
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulseheart 1.2s ease-in-out infinite;}
+@keyframes pulseheart{0%,100%{transform:scale(1);}50%{transform:scale(1.18);}}
+
+@media(prefers-reduced-motion:reduce){
+  .bob,.wave,.blink,.pulse{animation:none;}
+  .hf{opacity:1;animation:none;}
+}
+
+/* ==================== MUZIK BUTANG ==================== */
+.music-toggle{
+  position:fixed;bottom:18px;right:18px;z-index:60;
+  width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;
+  background:linear-gradient(180deg,#fff8ec,#e9dcbf);color:var(--blue-700);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 22px rgba(0,0,0,.4);
+  transition:transform .2s;
+}
+.music-toggle:active{transform:scale(.92);}
+.music-toggle .ic-note{transition:transform .4s;}
+.music-toggle.playing .ic-note{animation:spin 3.4s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.ring{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(201,169,79,.55);opacity:0;}
+.music-toggle.playing .ring{animation:ripple 2.2s ease-out infinite;}
+.music-toggle.playing .r2{animation-delay:.7s;}
+.music-toggle.playing .r3{animation-delay:1.4s;}
+@keyframes ripple{0%{opacity:.7;transform:scale(1);}100%{opacity:0;transform:scale(2.1);}}
+
+/* ==================== REVEAL ON SCROLL ==================== */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s ease, transform .8s ease;}
+.reveal.in{opacity:1;transform:none;}
+
+/* ==================== RESPONSIF ==================== */
+@media(max-width:380px){
+  .cover-names{font-size:2.9rem;}
+  .bride,.groom{font-size:2.15rem;}
+  .cd{min-width:54px;padding:10px 4px;}
+  .cd span{font-size:1.35rem;}
+  .panel{padding:30px 20px;}
+}
+@media(min-width:560px){
+  .fl{width:250px;height:250px;}
+}
