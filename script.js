@@ -6,7 +6,8 @@
 
   // ---- Konfigurasi ----
   var EVENT_DATE = new Date(2026, 7, 31, 12, 0, 0); // 31 Ogos 2026, 12:00 tengah hari
-  var WA_PHONE = '';   // isi no. telefon utk RSVP ke WhatsApp, cth: '60123456789' (kosong = simpan setempat sahaja)
+  var WA_PHONE = '601119949565';   // no. WhatsApp (sandaran jika SHEET_URL kosong)
+  var SHEET_URL = 'https://script.google.com/macros/s/AKfycbxt_8qrILO70gjMiiTgqNx3nlyxOei-YzBZONRUaFxe2etaNvuXEptE55diTopQ1iMvCQ/exec';   // Google Apps Script Web App (lihat RSVP-GoogleSheet.md)
   var STORE_KEY = 'wishes_munirah_alif';
   var MUSIC_START = 4; // lagu bermula pada saat ke-4 (skip intro). Tukar ke 0 jika mahu dari mula.
 
@@ -266,17 +267,27 @@
      4) COUNTDOWN
      ============================================================ */
   function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  // Tetapkan nilai + cetus animasi flip hanya bila berubah
+  function setDigit(id, val) {
+    var el = $(id);
+    val = String(val);
+    if (el.textContent === val) return;
+    el.textContent = val;
+    el.classList.remove('flip');
+    void el.offsetWidth;            // paksa reflow supaya animasi ulang semula
+    el.classList.add('flip');
+  }
   function tickCountdown() {
     var diff = EVENT_DATE - new Date();
     if (diff <= 0) {
-      $('cd-d').textContent = $('cd-h').textContent = $('cd-m').textContent = $('cd-s').textContent = '0';
+      setDigit('cd-d', 0); setDigit('cd-h', 0); setDigit('cd-m', 0); setDigit('cd-s', 0);
       return;
     }
     var s = Math.floor(diff / 1000);
-    $('cd-d').textContent = Math.floor(s / 86400);
-    $('cd-h').textContent = pad(Math.floor(s % 86400 / 3600));
-    $('cd-m').textContent = pad(Math.floor(s % 3600 / 60));
-    $('cd-s').textContent = pad(s % 60);
+    setDigit('cd-d', Math.floor(s / 86400));
+    setDigit('cd-h', pad(Math.floor(s % 86400 / 3600)));
+    setDigit('cd-m', pad(Math.floor(s % 3600 / 60)));
+    setDigit('cd-s', pad(s % 60));
   }
   tickCountdown();
   setInterval(tickCountdown, 1000);
@@ -298,6 +309,7 @@
       'DTEND:' + fmt(end),
       'SUMMARY:Majlis Perkahwinan Munirah & Alif',
       'LOCATION:Lot 566, Kampung Mulong, 16250 Wakaf Bharu, Kelantan',
+      'GEO:6.110415;102.199436',
       'DESCRIPTION:Walimatulurus Munirah binti Mohamad Nasir & Mohammad Alif Hilmy bin Muhamad',
       'END:VEVENT', 'END:VCALENDAR'
     ].join('\r\n');
@@ -358,13 +370,32 @@
     renderWishes();
     this.reset();
 
-    // jika ada nombor WhatsApp, buka penghantaran
-    if (WA_PHONE) {
+    if (SHEET_URL) {
+      // Utama: hantar ke Google Sheet
+      sendToSheet({ name: name, attend: attend, pax: pax, msg: msg });
+    } else if (WA_PHONE) {
+      // Sandaran: buka WhatsApp dengan mesej siap taip
       var text = 'Salam, saya ' + name + ' (' + attend +
         (pax ? ', ' + pax + ' pax' : '') + ').' + (msg ? ' Ucapan: ' + msg : '');
       window.open('https://wa.me/' + WA_PHONE + '?text=' + encodeURIComponent(text), '_blank');
     }
   });
+
+  // Hantar satu ucapan ke Google Apps Script Web App (fire-and-forget)
+  function sendToSheet(data) {
+    try {
+      fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',                                   // elak sekatan CORS Apps Script
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          name: data.name, attend: data.attend,
+          pax: data.pax, msg: data.msg,
+          ts: new Date().toISOString()
+        })
+      });
+    } catch (e) {}
+  }
 
   renderWishes();
 

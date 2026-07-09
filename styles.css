@@ -336,6 +336,47 @@ body::before{
 .ic-round svg{width:28px;height:28px;}
 .script{font-family:'Great Vibes',cursive;font-size:1.9rem;color:var(--blue-600);margin-bottom:6px;}
 .script.center{margin-bottom:14px;}
+
+/* ---- Hubungi Keluarga Pengantin ---- */
+.contact-title{margin-bottom:2px;}
+.contact-sub{margin-top:-2px;margin-bottom:22px;}
+.contacts{display:flex;flex-direction:column;gap:16px;}
+.contact-row{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--blue-700);border-radius:12px;padding:13px 16px;
+  box-shadow:0 8px 18px rgba(15,45,122,.30);
+  /* Masuk satu demi satu bila kad reveal */
+  opacity:0;transform:translateY(18px);
+  transition:opacity .55s ease, transform .55s cubic-bezier(.2,.7,.2,1);
+}
+.reveal.in .contact-row{opacity:1;transform:none;}
+.reveal.in .contact-row:nth-child(1){transition-delay:.15s;}
+.reveal.in .contact-row:nth-child(2){transition-delay:.32s;}
+.reveal.in .contact-row:nth-child(3){transition-delay:.49s;}
+.contact-row .c-name{
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:.95rem;color:#fff;
+  text-align:left;line-height:1.25;
+}
+.c-acts{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.c-call{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;color:#fff;transition:transform .15s ease,opacity .15s ease;
+}
+.c-call svg{width:26px;height:26px;}
+.c-call:hover{transform:scale(1.08);}
+.c-call:active{transform:scale(.94);}
+.c-wa{
+  display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;color:#3ce07f;
+  transition:color .15s ease,transform .15s ease;
+}
+.c-wa svg{width:24px;height:24px;color:#25D366;}
+.c-wa:hover{color:#6ff5a6;transform:translateY(-1px);}
+.c-wa:active{transform:scale(.96);}
+.contact-note{
+  margin-top:20px;font-style:italic;font-family:'Cormorant Garamond',serif;
+  font-size:1rem;color:#3a5bb0;line-height:1.7;
+}
 .big{font-family:'Playfair Display',serif;font-weight:600;font-size:1.05rem;color:var(--blue-800);line-height:1.5;margin-bottom:6px;}
 
 /* ---- Butang ---- */
@@ -354,13 +395,20 @@ body::before{
 .btn-solid:active,.btn-outline:active{transform:scale(.97);}
 
 /* ---- Countdown ---- */
-.countdown{display:flex;justify-content:center;gap:10px;margin:6px 0 8px;}
+.countdown{display:flex;justify-content:center;gap:10px;margin:6px 0 8px;perspective:420px;}
 .cd{
   background:var(--blue-700);color:#fff;border-radius:14px;
   padding:12px 6px;min-width:62px;
   box-shadow:0 8px 18px rgba(15,45,122,.35);
 }
-.cd span{display:block;font-family:'Playfair Display',serif;font-weight:700;font-size:1.6rem;line-height:1;}
+.cd span{display:block;font-family:'Playfair Display',serif;font-weight:700;font-size:1.6rem;line-height:1;transform-origin:center bottom;backface-visibility:hidden;}
+/* Kesan flip-clock bila nombor bertukar */
+.cd span.flip{animation:cdFlip .5s cubic-bezier(.3,.7,.25,1);}
+@keyframes cdFlip{
+  0%  {transform:rotateX(-88deg);opacity:0;}
+  55% {opacity:1;}
+  100%{transform:rotateX(0);opacity:1;}
+}
 .cd small{display:block;margin-top:5px;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;opacity:.85;}
 
 /* ---- Borang ---- */
@@ -378,7 +426,7 @@ body::before{
 .form textarea{resize:vertical;}
 
 /* ---- Ucapan ---- */
-.wishes{margin-top:20px;display:flex;flex-direction:column;gap:10px;text-align:left;}
+.wishes{display:none;}   /* ucapan dikumpul ke Google Sheet sahaja — tak dipapar pada kad */
 .wish{
   background:#fffdf6;border-left:3px solid var(--gold);border-radius:10px;
   padding:11px 14px;box-shadow:0 4px 10px rgba(0,0,0,.06);
