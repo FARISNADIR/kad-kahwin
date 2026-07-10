@@ -370,6 +370,9 @@
     renderWishes();
     this.reset();
 
+    // Raikan dengan animasi bunga
+    if (window.playBunga) window.playBunga();
+
     if (SHEET_URL) {
       // Utama: hantar ke Google Sheet
       sendToSheet({ name: name, attend: attend, pax: pax, msg: msg });

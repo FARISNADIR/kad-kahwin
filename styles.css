@@ -245,6 +245,12 @@ body::before{
   display:inline-block;
   filter:drop-shadow(0 1px 1px rgba(15,45,122,.2));
 }
+.ring-anim{
+  width:2.4em;height:2.4em;margin:0 .1em;vertical-align:-.85em;
+  display:inline-block;
+  filter:drop-shadow(0 1px 1px rgba(15,45,122,.2));
+}
+.ring-anim svg{width:100%!important;height:100%!important;}
 .cdate{
   font-family:'Poppins',sans-serif;font-weight:600;letter-spacing:1.5px;
   font-size:1rem;color:var(--blue-800);margin-top:14px;
@@ -311,6 +317,30 @@ body::before{
 }
 .cat-corner svg{width:100%!important;height:100%!important;}
 
+/* ---- Pop-up: silih ganti bawah, kemudian atas (terbalik) ---- */
+.popup-corner{
+  position:fixed;left:12px;bottom:-8px;z-index:58;pointer-events:none;
+  width:clamp(70px,20vw,96px);aspect-ratio:1440/2560;
+  opacity:0;transform:translateY(100%);
+  transition:opacity .45s ease, transform .55s cubic-bezier(.22,1.4,.4,1);
+}
+.popup-corner.show{opacity:1;transform:translateY(0);}
+
+/* ---- Bunga raikan hantar ucapan (lapisan penuh skrin) ---- */
+.bunga-overlay{
+  position:fixed;inset:0;z-index:80;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .3s ease;
+}
+.bunga-overlay.show{opacity:1;}
+.bunga-overlay svg{width:min(92vw,460px)!important;height:auto!important;}
+
+/* mod atas: naik dari atas skrin & terbalik 180° */
+.popup-corner.at-top{bottom:auto;top:-8px;transform:translateY(-100%) rotate(180deg);}
+.popup-corner.at-top.show{transform:translateY(0) rotate(180deg);}
+
+.popup-corner svg{width:100%!important;height:100%!important;}
+
 /* ---- Teks ---- */
 .bismillah{font-family:'Amiri',serif;font-size:1.7rem;color:var(--blue-700);margin-bottom:18px;line-height:1.6;}
 .lead{font-family:'Playfair Display',serif;font-weight:600;font-size:1.1rem;color:var(--blue-700);margin-bottom:14px;}
@@ -319,8 +349,9 @@ body::before{
 .parents{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.35rem;color:var(--blue-700);margin:16px 0;line-height:1.5;}
 .parents .amp{font-family:'Great Vibes',cursive;font-size:1.6rem;color:var(--gold);}
 .bride,.groom{
-  font-family:'Great Vibes',cursive;font-weight:400;font-size:2.5rem;
+  font-family:'Sacramento',cursive;font-weight:400;font-size:2.7rem;
   color:var(--blue-700);line-height:1.15;margin:4px 0;
+  -webkit-text-stroke:.6px var(--blue-700);
 }
 .mini{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#5468b0;letter-spacing:.5px;}
 .heart{font-size:1.2rem;margin:10px 0;}
@@ -455,6 +486,9 @@ body::before{
 /* ---- Penutup ---- */
 .closing-ar{font-family:'Amiri',serif;font-size:1.7rem;color:var(--blue-700);margin-bottom:14px;}
 .closing-names{font-family:'Great Vibes',cursive;font-size:2.6rem;color:var(--blue-700);margin:12px 0 6px;}
+.closing-title{font-family:'Great Vibes',cursive;font-size:2.1rem;color:var(--blue-700);line-height:1.25;margin:2px 0 16px;}
+.dua-ar{font-family:'Amiri',serif;font-size:1.5rem;color:var(--blue-700);line-height:2;margin:6px 0 14px;}
+.dua-tr{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.02rem;color:#4a5ea8;line-height:1.6;}
 .closing-names span{color:var(--gold);}
 .closing-fam{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:#4a5ea8;line-height:1.5;}
 .credit{margin-top:14px;font-size:.66rem;letter-spacing:1.5px;text-transform:uppercase;color:#8a97c8;}

@@ -10,7 +10,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Sacramento&family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="locked">
@@ -70,7 +70,7 @@
                     <div class="monogram2"><span class="ar">أ‌م</span></div>
                     <div class="orn">&#10086;</div>
                     <div class="cdiv"></div>
-                    <p class="ar-names">منيرة <svg class="ring-ic" viewBox="0 0 44 30" aria-hidden="true"><path d="M18 6 l3 4 -3 4 -3 -4 z" fill="#8fb0e6"/><path d="M18 10 l3 -4 h-6 z" fill="#cfe0fa"/><circle cx="18" cy="19" r="8" fill="none" stroke="#1e50c8" stroke-width="2.6"/><circle cx="28" cy="19" r="8" fill="none" stroke="#c9a94f" stroke-width="2.6"/></svg> أليف</p>
+                    <p class="ar-names">منيرة <span id="ring-anim" class="ring-anim" aria-hidden="true"></span> أليف</p>
                     <div class="cdiv"></div>
                     <p class="cdate">31 OGOS 2026 &nbsp;|&nbsp; ISNIN</p>
                     <p class="chijri">(18 RABIULAWAL 1448H)</p>
@@ -82,7 +82,6 @@
         <button id="open-btn" class="play-btn" aria-label="Buka jemputan">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.2v13.6L19 12z"/></svg>
         </button>
-        <p class="cover-hint">Tekan untuk membuka</p>
     </section>
 
     <!-- ============ KANDUNGAN ============ -->
@@ -99,7 +98,7 @@
                 <p class="lead">Assalamualaikum wbt. &amp; Salam Sejahtera</p>
                 <p class="soft">Alhamdulillah, syukur ke hadrat Ilahi dengan keredhaan dan keizinan-Nya, kami&hellip;</p>
 
-                <p class="parents">Mohamad Nasir bin Abdul Latif<br><span class="amp">&amp;</span><br>Rodziah binti Muhammad</p>
+                <p class="parents">MOHAMAD NASIR BIN ABDUL LATIF<br><span class="amp">&amp;</span><br>RODZIAH BINTI MUHAMMAD</p>
 
                 <p class="soft">Dengan penuh kesyukuran menjemput<br>Dato' / Datin / Tuan / Puan / Encik / Cik</p>
 
@@ -108,7 +107,6 @@
                 <p class="soft">ke majlis perkahwinan puteri kami</p>
                 <h2 class="bride">Munirah</h2>
                 <p class="mini">binti Mohamad Nasir</p>
-                <p class="heart">&#128149;</p>
                 <p class="soft-em">dengan pilihan hatinya</p>
                 <h2 class="groom">Mohammad Alif Hilmy</h2>
                 <p class="mini">bin Muhamad</p>
@@ -245,10 +243,9 @@
         <!-- Seksyen 5: Doa penutup -->
         <section class="card reveal">
             <div class="panel closing">
-                <p class="closing-ar">وَبَارَكَ اللّٰهُ عَلَيْكُمَا</p>
-                <p class="soft">Semoga menjadi pasangan yang bahagia hingga ke Jannah.</p>
-                <p class="closing-names">Munirah <span>&amp;</span> Alif</p>
-                <p class="closing-fam">Ikhlas daripada keluarga<br>Mohamad Nasir bin Abdul Latif &amp; Rodziah binti Muhammad</p>
+                <p class="closing-title">Doa Untuk Kedua Mempelai</p>
+                <p class="dua-ar">بَارَكَ اللّٰهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِيْ خَيْرٍ</p>
+                <p class="dua-tr">&ldquo;Semoga Allah memberkahi kalian berdua, memberkahi atas kalian berdua, dan mengumpulkan kalian berdua dalam kebaikan.&rdquo;</p>
                 <div class="divline"><span></span>&#10022;<span></span></div>
                 <p class="credit">Reka bentuk digital &middot; 1448H / 2026M</p>
             </div>
@@ -258,6 +255,12 @@
     <!-- ============ KUCING TIDUR (sudut bawah-kiri) ============ -->
     <div id="cat-corner" class="cat-corner" aria-hidden="true"></div>
 
+    <!-- ============ POP-UP (muncul setiap 5 saat di bawah) ============ -->
+    <div id="popup-corner" class="popup-corner" aria-hidden="true"></div>
+
+    <!-- ============ BUNGA (raikan bila ucapan berjaya dihantar) ============ -->
+    <div id="bunga-overlay" class="bunga-overlay" aria-hidden="true"></div>
+
     <audio id="bg-music" preload="none">
         <!-- Letak fail lagu anda dalam folder assets/ dengan salah satu nama di bawah -->
         <source src="assets/music.mp3" type="audio/mpeg">
@@ -266,12 +269,47 @@
         <source src="assets/music.wav" type="audio/wav">
     </audio>
 
-    <!-- Kucing tidur: lottie-web + data terbenam (berfungsi walau buka fail terus) -->
+    <!-- Kucing tidur & pop-up: lottie-web + data terbenam (berfungsi walau buka fail terus) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
     <script src="assets/cat-data.js"></script>
+    <script src="assets/popup-data.js"></script>
+    <script src="assets/ring-data.js"></script>
+    <script src="assets/bunga-data.js"></script>
     <script>
         (function () {
-            if (window.lottie && window.CAT_DATA) {
+            if (!window.lottie) return;
+
+            // Bunga: dimainkan sekali bila ucapan berjaya dihantar
+            if (window.BUNGA_DATA) {
+                var bungaEl = document.getElementById('bunga-overlay');
+                var bungaAnim = lottie.loadAnimation({
+                    container: bungaEl,
+                    renderer: 'svg',
+                    loop: false,
+                    autoplay: false,
+                    animationData: window.BUNGA_DATA
+                });
+                bungaAnim.addEventListener('complete', function () {
+                    bungaEl.classList.remove('show');
+                });
+                window.playBunga = function () {
+                    bungaEl.classList.add('show');
+                    bungaAnim.goToAndPlay(0, true);
+                };
+            }
+
+            // Cincin beranimasi di muka depan
+            if (window.RING_DATA && document.getElementById('ring-anim')) {
+                lottie.loadAnimation({
+                    container: document.getElementById('ring-anim'),
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    animationData: window.RING_DATA
+                });
+            }
+
+            if (window.CAT_DATA) {
                 lottie.loadAnimation({
                     container: document.getElementById('cat-corner'),
                     renderer: 'svg',
@@ -279,6 +317,42 @@
                     autoplay: true,
                     animationData: window.CAT_DATA
                 });
+            }
+
+            // Pop-up: muncul perlahan, main maju, kemudian undur, sorok — jeda 5 saat
+            if (window.POPUP_DATA) {
+                var popEl = document.getElementById('popup-corner');
+                var popAnim = lottie.loadAnimation({
+                    container: popEl,
+                    renderer: 'svg',
+                    loop: false,
+                    autoplay: false,
+                    animationData: window.POPUP_DATA
+                });
+                popAnim.setSpeed(0.5); // perlahan
+                var reversing = false;
+                var atTop = false; // silih ganti: bawah -> atas -> bawah ...
+                popAnim.addEventListener('complete', function () {
+                    if (!reversing) {
+                        // habis maju -> main undur
+                        reversing = true;
+                        popAnim.setDirection(-1);
+                        popAnim.play();
+                    } else {
+                        // habis undur -> sorok, tukar tempat, ulang selepas 5 saat
+                        popEl.classList.remove('show');
+                        atTop = !atTop;
+                        setTimeout(showPopup, 5000);
+                    }
+                });
+                function showPopup() {
+                    reversing = false;
+                    popEl.classList.toggle('at-top', atTop);
+                    popEl.classList.add('show');
+                    popAnim.setDirection(1);
+                    popAnim.goToAndPlay(0, true);
+                }
+                showPopup();
             }
         })();
     </script>
