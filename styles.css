@@ -351,8 +351,8 @@ body::before{
 .lead{font-family:'Playfair Display',serif;font-weight:600;font-size:1.1rem;color:var(--blue-700);margin-bottom:14px;}
 .soft{font-weight:300;font-size:.9rem;line-height:1.75;color:#3a5bb0;margin:8px 0;}
 .soft-em{font-style:italic;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:#3a5bb0;margin:6px 0;}
-.parents{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.35rem;color:var(--blue-700);margin:16px 0;line-height:1.5;}
-.parents .amp{font-family:'Great Vibes',cursive;font-size:1.6rem;color:var(--gold);}
+.parents{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(1rem, 4.4vw, 1.35rem);white-space:nowrap;color:var(--blue-700);margin:16px 0;line-height:1.5;}
+.parents .amp{font-family:'Great Vibes',cursive;font-size:1.25em;color:var(--gold);}
 .bride,.groom{
   font-family:'Sacramento',cursive;font-weight:400;
   font-size:clamp(1.7rem, 8.4vw, 2.7rem);   /* mengecil ikut lebar skrin supaya kekal 1 baris */
