@@ -340,20 +340,43 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
+  var displayWishes = [];   // senarai yang sedang dipapar (dari sheet jika ada)
+
   function renderWishes() {
     var box = $('wishes');
-    var list = loadWishes();
     box.innerHTML = '';
-    list.slice().reverse().forEach(function (w) {
+    displayWishes.slice().reverse().forEach(function (w) {
+      if (!w.msg) return;                 // papar hanya yang ada ucapan
       var el = document.createElement('div');
       el.className = 'wish';
-      var pax = w.pax ? ' &middot; ' + esc(w.pax) + ' pax' : '';
-      el.innerHTML =
-        '<div class="w-top"><span class="w-name">' + esc(w.name) + '</span>' +
-        '<span class="w-tag ' + tagClass(w.attend) + '">' + esc(w.attend) + pax + '</span></div>' +
-        (w.msg ? '<div class="w-msg">' + esc(w.msg) + '</div>' : '');
+      // Sembunyikan nama & status kehadiran/pax — papar ucapan sahaja
+      el.innerHTML = '<div class="w-msg">' + esc(w.msg) + '</div>';
       box.appendChild(el);
     });
+  }
+
+  // Ambil semua ucapan dari Google Sheet (doGet) dan paparkan
+  function loadWishesFromSheet() {
+    if (!SHEET_URL) { displayWishes = loadWishes(); renderWishes(); return; }
+    fetch(SHEET_URL)
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var arr = Array.isArray(data) ? data : (data.rows || data.wishes || []);
+        displayWishes = arr.map(function (w) {
+          return {
+            name:   w.name   || w.Nama       || '',
+            attend: w.attend || w.Kehadiran  || '',
+            pax:    w.pax    || w.Pax        || '',
+            msg:    w.msg    || w.Ucapan     || ''
+          };
+        }).filter(function (w) { return w.name; });
+        renderWishes();
+      })
+      .catch(function () {
+        // Gagal (cth. doGet belum di-deploy) — guna simpanan tempatan
+        displayWishes = loadWishes();
+        renderWishes();
+      });
   }
 
   $('rsvp-form').addEventListener('submit', function (e) {
@@ -367,6 +390,9 @@
     var list = loadWishes();
     list.push({ name: name, attend: attend, pax: pax, msg: msg, t: Date.now() });
     saveWishes(list);
+
+    // Papar segera (optimistik) sambil tunggu sheet kemas kini
+    displayWishes.push({ name: name, attend: attend, pax: pax, msg: msg });
     renderWishes();
     this.reset();
 
@@ -374,8 +400,9 @@
     if (window.playBunga) window.playBunga();
 
     if (SHEET_URL) {
-      // Utama: hantar ke Google Sheet
+      // Utama: hantar ke Google Sheet, kemudian selaras semula paparan
       sendToSheet({ name: name, attend: attend, pax: pax, msg: msg });
+      setTimeout(loadWishesFromSheet, 2500);
     } else if (WA_PHONE) {
       // Sandaran: buka WhatsApp dengan mesej siap taip
       var text = 'Salam, saya ' + name + ' (' + attend +
@@ -400,7 +427,7 @@
     } catch (e) {}
   }
 
-  renderWishes();
+  loadWishesFromSheet();
 
   /* ============================================================
      7) KESAN TAIP (TYPEWRITER) — "MAJLIS KESYUKURAN"

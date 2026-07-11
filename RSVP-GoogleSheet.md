@@ -19,6 +19,7 @@ Selepas siap, setiap ucapan tetamu akan masuk automatik ke sheet — keluarga bo
 2. Padam kod sedia ada, tampal kod di bawah, kemudian **Save** (ikon disket).
 
 ```javascript
+// Terima ucapan baharu (borang -> sheet)
 function doPost(e) {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
@@ -39,7 +40,37 @@ function doPost(e) {
       .setMimeType(ContentService.MimeType.JSON);
   }
 }
+
+// Pulangkan semua ucapan (sheet -> laman, untuk dipaparkan)
+function doGet(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+    var values = sheet.getDataRange().getValues();
+    var out = [];
+    for (var i = 1; i < values.length; i++) {   // langkau baris tajuk
+      var row = values[i];
+      if (!row[1]) continue;                     // tiada nama -> langkau
+      out.push({
+        ts:     row[0],
+        name:   row[1],
+        attend: row[2],
+        pax:    row[3],
+        msg:    row[4]
+      });
+    }
+    return ContentService
+      .createTextOutput(JSON.stringify(out))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: false, error: String(err) }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
 ```
+
+> **PENTING:** selepas tambah `doGet`, anda WAJIB deploy semula versi baharu supaya laman boleh baca senarai:
+> **Deploy → Manage deployments → Edit (pensel) → Version: New version → Deploy**. URL kekal sama.
 
 ## Langkah 3 — Deploy sebagai Web App
 1. Klik **Deploy → New deployment**.

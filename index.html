@@ -329,9 +329,10 @@
                     autoplay: false,
                     animationData: window.POPUP_DATA
                 });
-                popAnim.setSpeed(0.5); // perlahan
+                popAnim.setSpeed(1); // kelajuan normal
                 var reversing = false;
-                var atTop = false; // silih ganti: bawah -> atas -> bawah ...
+                var spots = ['', 'at-top', 'at-round']; // 1) bawah 2) atas terbalik 3) round
+                var idx = 0;
                 popAnim.addEventListener('complete', function () {
                     if (!reversing) {
                         // habis maju -> main undur
@@ -341,16 +342,26 @@
                     } else {
                         // habis undur -> sorok, tukar tempat, ulang selepas 5 saat
                         popEl.classList.remove('show');
-                        atTop = !atTop;
+                        idx = (idx + 1) % spots.length;
                         setTimeout(showPopup, 5000);
                     }
                 });
                 function showPopup() {
                     reversing = false;
-                    popEl.classList.toggle('at-top', atTop);
-                    popEl.classList.add('show');
-                    popAnim.setDirection(1);
-                    popAnim.goToAndPlay(0, true);
+                    // Letak di tempat baharu TANPA animasi (elak pusingan/sapuan silang skrin)
+                    popEl.classList.add('no-anim');
+                    popEl.classList.remove('show', 'at-top', 'at-round');
+                    if (spots[idx]) popEl.classList.add(spots[idx]);
+                    void popEl.offsetWidth;               // paksa lukis di kedudukan tersembunyi
+                    // Tunggu 2 bingkai supaya kedudukan itu benar-benar dilukis dulu
+                    requestAnimationFrame(function () {
+                        requestAnimationFrame(function () {
+                            popEl.classList.remove('no-anim');
+                            popEl.classList.add('show');  // barulah animasi masuk dari tempatnya
+                            popAnim.setDirection(1);
+                            popAnim.goToAndPlay(0, true);
+                        });
+                    });
                 }
                 showPopup();
             }
