@@ -358,11 +358,13 @@
   // Ambil semua ucapan dari Google Sheet (doGet) dan paparkan
   function loadWishesFromSheet() {
     if (!SHEET_URL) { displayWishes = loadWishes(); renderWishes(); return; }
-    fetch(SHEET_URL)
+    // Cache-busting: paksa balasan segar (elak pelayar pulangkan senarai lama)
+    var url = SHEET_URL + (SHEET_URL.indexOf('?') > -1 ? '&' : '?') + 't=' + Date.now();
+    fetch(url, { cache: 'no-store' })
       .then(function (r) { return r.json(); })
       .then(function (data) {
         var arr = Array.isArray(data) ? data : (data.rows || data.wishes || []);
-        displayWishes = arr.map(function (w) {
+        var sheetList = arr.map(function (w) {
           return {
             name:   w.name   || w.Nama       || '',
             attend: w.attend || w.Kehadiran  || '',
@@ -370,10 +372,18 @@
             msg:    w.msg    || w.Ucapan     || ''
           };
         }).filter(function (w) { return w.name; });
+        // Gabung ucapan setempat yang belum muncul dalam sheet (elak "hilang" sementara sheet menyusul)
+        loadWishes().forEach(function (w) {
+          var dup = sheetList.some(function (s) {
+            return s.name === w.name && (s.msg || '') === (w.msg || '');
+          });
+          if (!dup) sheetList.push({ name: w.name, attend: w.attend, pax: w.pax, msg: w.msg });
+        });
+        displayWishes = sheetList;
         renderWishes();
       })
       .catch(function () {
-        // Gagal (cth. doGet belum di-deploy) — guna simpanan tempatan
+        // Gagal (cth. doGet belum di-deploy / CORS) — guna simpanan tempatan
         displayWishes = loadWishes();
         renderWishes();
       });
