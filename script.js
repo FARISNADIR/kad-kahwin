@@ -310,7 +310,7 @@
       'SUMMARY:Majlis Perkahwinan Munirah & Alif',
       'LOCATION:Lot 566, Kampung Mulong, 16250 Wakaf Bharu, Kelantan',
       'GEO:6.110415;102.199436',
-      'DESCRIPTION:Walimatulurus Munirah binti Mohamad Nasir & Mohammad Alif Hilmy bin Muhamad',
+      'DESCRIPTION:Jemputan Majlis Munirah binti Mohamad Nasir & Mohammad Alif Hilmy bin Muhamad',
       'END:VEVENT', 'END:VCALENDAR'
     ].join('\r\n');
     var blob = new Blob([ics], { type: 'text/calendar' });
